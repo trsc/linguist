@@ -82,7 +82,7 @@ defmodule Linguist.Compiler do
       |> Regex.split(string, on: [:head, :tail])
       |> Enum.reduce( "", fn
       <<"%{" <> rest>>, acc ->
-        key      = String.to_atom(String.rstrip(rest, ?}))
+        key      = String.to_atom(String.trim_trailing(rest, "}"))
         bindings = Macro.var(var, __MODULE__)
         quote do
           unquote(acc) <> to_string(Keyword.fetch!(unquote(bindings), unquote(key)))
